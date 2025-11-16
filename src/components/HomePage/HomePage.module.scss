@@ -228,7 +228,6 @@
 
 .mobileMenuFooter {
   padding: 20px;
-  border-top: 1px solid #f0f0f0;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -237,13 +236,12 @@
 .mobileLanguageButton {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: left;
   gap: 6px;
   color: #6F6F6F;
   background: transparent;
-  padding: 12px 20px;
-  border: 1px solid #e0e0e0;
-  border-radius: 999px;
+  padding: 46px 0 0 32px;
+  border: none;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -536,7 +534,7 @@
 
 .cardsSection {
   width: 100%;
-  padding: 96px 0 100px 0;
+  padding: 96px 0 100px 30px;
   background: #DFECC6;
   text-align: left;
   overflow: hidden;
@@ -616,8 +614,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 24px;
-  gap: 8px;
+  padding: 18px;
+  gap: 4px;
   .cardTitle {
     margin: 0;
     font-size: 22px;
@@ -698,12 +696,21 @@
     box-shadow: none;
   }
 
+  .logo{
+    width: 100px;
+    height: 22px;
+    img{
+      height: 100%;
+    }
+  }
+
   .header {
     padding: 0 20px;
     height: 56px;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    border-bottom: 1px solid #f0f0f0;
     gap: 0;
   }
 
@@ -721,7 +728,7 @@
   }
 
   .cardsSection {
-    padding: 72px 0 80px 24px;
+    padding: 72px 0 80px 30px;
   }
 
   .cardsHeader {
@@ -733,7 +740,7 @@
   }
 
   .cardSlide {
-    width: 220px;
+    width: 230px;
   }
   .figurePrimary{
     max-width: 320px;
@@ -763,7 +770,7 @@
   .cardContent {
     .cardTitle,
     .cardDescription{
-      font-size: 15px;
+      font-size: 14px;
     }
   }
 
@@ -771,6 +778,10 @@
   .mediaSection,
   .tabsSection {
     padding: 0 30px;
+  }
+
+  .hero {
+    margin-top: 40px;
   }
 }
 
@@ -781,9 +792,6 @@
     border-radius: 0;
   }
 
-  .heroTitle {
-    font-size: 24px;
-  }
 
   .tabList {
     gap: 12px;

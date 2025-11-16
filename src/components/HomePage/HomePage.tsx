@@ -94,6 +94,10 @@ export const HomePage: React.FC = () => {
     }
   ], [isMobile]);
 
+  const currentLogoImage = useMemo(() => 
+    isMobile ? '/images/mobile_logo.png' : '/images/logo.png'
+  , [isMobile]);
+
   const currentSlideImage = useMemo(() => 
     isMobile ? mobileSlideImage : slideImage
   , [isMobile]);
@@ -183,7 +187,7 @@ export const HomePage: React.FC = () => {
       <main className={styles.page}>
         <header className={clsx(styles.header, isScrolled && styles.headerScrolled)}>
           <div className={styles.logo}>
-            <Image src='/images/logo.png' alt='브랜드 로고' width={120} height={28} priority />
+            <Image src={currentLogoImage} alt='브랜드 로고' width={isMobile ? 100 : 120} height={isMobile ? 22 : 28} priority />
           </div>
           <nav className={styles.desktopNav}>
             <ul className={styles.navList}>
@@ -225,8 +229,10 @@ export const HomePage: React.FC = () => {
         {/* Mobile Menu Panel */}
         <div className={clsx(styles.mobileMenu, isMobileMenuOpen && styles.mobileMenuOpen)}>
           <div className={styles.mobileMenuHeader}>
-            <Image src='/images/logo.png' alt='브랜드 로고' width={120} height={28} />
-            <button 
+            <div className={styles.mobileLogo}>
+              <Image src='/images/mobile_logo.png' alt='브랜드 로고'  width={100} height={22} />
+            </div>
+          <button 
               className={styles.closeButton} 
               type='button'
               aria-label='메뉴 닫기'
@@ -246,13 +252,6 @@ export const HomePage: React.FC = () => {
             >
               Home
             </button>
-            <button
-              type='button'
-              className={styles.mobileMenuLink}
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Service
-            </button>
             {NAV_LINKS.map(({ label, target }) => (
               <button
                 key={label}
@@ -263,13 +262,14 @@ export const HomePage: React.FC = () => {
                 {label}
               </button>
             ))}
-          </nav>
-          <div className={styles.mobileMenuFooter}>
             <button className={styles.mobileLanguageButton} type='button'>
               <Image src={earthIcon} alt='earth icon' className={styles.earthIcon} aria-hidden />
               <span>한국어</span>
               <Image src={arrowIcon} alt='arrow icon' className={styles.arrowIcon} aria-hidden />
             </button>
+          </nav>
+
+          <div className={styles.mobileMenuFooter}>
             <button className={styles.mobileLoginButton} type='button'>
               Login
             </button>
@@ -358,7 +358,7 @@ export const HomePage: React.FC = () => {
             <Swiper
               className={styles.cardsSwiper}
               modules={[Pagination]}
-              spaceBetween={28}
+              spaceBetween={12}
               slidesPerView='auto'
               pagination={{
                 clickable: true,
