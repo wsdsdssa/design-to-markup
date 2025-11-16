@@ -382,7 +382,6 @@
 }
 
 .cardsHeader {
-  max-width: 1100px;
   margin: 0 0 40px;
   padding-right: 80px;
 }
@@ -410,7 +409,6 @@
   display: flex;
   justify-content: center;
   gap: 10px;
-  padding-right: 80px;
 }
 
 .cardsPagination :global(.swiper-pagination-bullet) {
@@ -483,30 +481,6 @@
   width: 100%;
   margin: 0 auto;
 }
-@media (max-width: 1180px) {
-  .page {
-    padding: 44px 48px 96px;
-    gap: 96px;
-    border-radius: 36px;
-  }
-
-  .cardsSection {
-    padding: 80px 0 88px 48px;
-  }
-
-  .cardsHeader {
-    padding-right: 48px;
-  }
-
-  .cardsPagination {
-    padding-right: 48px;
-  }
-
-  .cardSlide {
-    width: 240px;
-  }
-}
-
 @media (max-width: 900px) {
   .header {
     flex-direction: column;
