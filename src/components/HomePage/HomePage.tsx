@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import 'swiper/css';
@@ -14,6 +14,8 @@ import tabImage3 from '../../assets/Image_tab3.png';
 import slideImage from '../../assets/slide-image.png';
 import videoPoster from '../../assets/video_poster.png';
 import videoPlayButton from '../../assets/video_play_button.png';
+import earthIcon from '../../assets/earth_icon.png';
+import arrowIcon from '../../assets/arrow_icon.png';
 import styles from './HomePage.module.scss';
 
 const NAV_LINKS = [
@@ -74,6 +76,7 @@ export const HomePage: React.FC = () => {
 
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const activeTab = useMemo(() => TAB_CONTENT[activeTabIndex], [activeTabIndex]);
@@ -112,10 +115,19 @@ export const HomePage: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <div className={styles.root}>
       <main className={styles.page}>
-        <header className={styles.header}>
+        <header className={clsx(styles.header, isScrolled && styles.headerScrolled)}>
           <div className={styles.logo}>
             <Image src='/images/logo.png' alt='브랜드 로고' width={120} height={28} priority />
             <nav>
@@ -135,9 +147,11 @@ export const HomePage: React.FC = () => {
             </nav>
           </div>
           <div className={styles.actions}>
-            <button className={styles.loginLink} type='button'>
-              한국어
-            </button>
+            <button className={styles.languageButton} type='button'>
+              <Image src={earthIcon} alt='earth icon' className={styles.earthIcon} aria-hidden />
+              <span>한국어</span>
+              <Image src={arrowIcon} alt='arrow icon' className={styles.arrowIcon} aria-hidden />
+            </button> 
             <button className={styles.ctaButton} type='button'>
               Login
             </button>
@@ -213,6 +227,7 @@ export const HomePage: React.FC = () => {
               <h2 className={styles.cardsTitle}>테스트용 이미지 카드 단락입니다</h2>
               <p className={styles.sectionSubtitle}>면접 과제용으로 제작된 샘플 탭 단락입니다.<br />인터렉션, 코드 구조등을 자유롭게 구현하세요.</p>
             </div>
+            <div className={styles.cardsContent}>
 
             <Swiper
               className={styles.cardsSwiper}
@@ -239,6 +254,7 @@ export const HomePage: React.FC = () => {
               ))}
             </Swiper>
             <div className={styles.cardsPagination} />
+            </div>
           </section>
         </div>
       </main>

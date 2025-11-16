@@ -13,12 +13,25 @@
 }
 
 .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 48px;
   padding: 0 40px;
   height: 56px;
+  background: transparent;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.headerScrolled {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
 }
 
 .logo {
@@ -94,24 +107,40 @@
   font-size: 15px;
 }
 
-.loginLink {
-  color: #4f5d4b;
+.languageButton {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  gap: 6px;
+  color: #6F6F6F;
+  background: transparent;
+  padding: 8px 20px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.languageButton:hover {
+  font-weight: 700;
 }
 
 .ctaButton {
   border: none;
-  background: linear-gradient(135deg, #6d8f3f 0%, #8abd4b 100%);
+  background:#485C11;
   color: #ffffff;
-  padding: 12px 30px;
+  width: 80px;
+  height: 40px;
   border-radius: 999px;
   font-weight: 600;
-  box-shadow: 0 12px 30px rgba(109, 143, 63, 0.35);
 }
 
 .content{
   display: flex;
   flex-direction: column;
-  gap: 60px
+  gap: 60px;
+  padding-top: 200px;
 }
 
 .hero {
@@ -213,7 +242,7 @@
   text-align: center;
   margin: 0 auto;
   max-width: 520px;
-  font-size: 17px;
+  font-size: 18px;
   color: #4a5a46;
   line-height: 1.6;
 }
@@ -295,7 +324,7 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 0;
   width: 100%;
-  max-width: 420px;
+  max-width: 620px;
   font-size: 16px;
   font-weight: 600;
 }
@@ -367,6 +396,7 @@
 
 .figureSecondary {
   max-width: 100%;
+  width: 100%;
   border-radius: 34px;
   overflow: hidden;
   box-shadow: 0 24px 70px rgba(16, 36, 18, 0.12);
@@ -375,10 +405,13 @@
 
 .cardsSection {
   width: 100%;
-  padding: 96px 0 100px 80px;
+  padding: 96px 0 100px 0;
   background: #DFECC6;
   text-align: left;
   overflow: hidden;
+  .sectionSubtitle{
+    color: #485C11;
+  }
 }
 
 .cardsHeader {
@@ -388,10 +421,16 @@
 
 .cardsTitle {
   margin: 0 0 16px;
-  font-size: 30px;
-  color: #26321f;
-  font-weight: 600;
+  font-size: 46px;
+  color: #485C11;
+  font-weight: 700;
   text-align: center;
+}
+
+.cardsContent{
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .cardsSwiper {
