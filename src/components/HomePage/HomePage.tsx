@@ -174,27 +174,20 @@ export const HomePage: React.FC = () => {
           <section ref={sectionRefs.tabs} id='tabs-section' className={styles.tabsSection}>
             <h2 className={styles.sectionTitle}>테스트용 탭 영역 단락입니다</h2>
             <p className={styles.sectionSubtitle}>면접 과제용으로 제작된 샘플 탭 단락입니다.<br />인터렉션, 코드 구조등을 자유롭게 구현하세요.</p>
-            <div className={styles.tabList} role='tablist' aria-label='테스트용 탭 메뉴'>
+            <div className={styles.tabNav} role='tablist' aria-label='테스트용 탭 메뉴'>
               {TAB_CONTENT.map((tab, index) => (
                 <button
                   key={tab.label}
                   type='button'
                   role='tab'
                   aria-selected={activeTabIndex === index}
-                  className={clsx(styles.tabButton, activeTabIndex === index && styles.tabButtonActive)}
+                  className={clsx(styles.tabItem, activeTabIndex === index && styles.tabItemActive)}
                   onClick={() => handleSelectTab(index)}
                 >
                   {tab.label}
                 </button>
               ))}
             </div>
-            <div className={styles.progressBar}>
-              <span
-                className={styles.progressFill}
-                style={{ width: `${((activeTabIndex + 1) / TAB_CONTENT.length) * 100}%` }}
-              />
-            </div>
-            <p className={styles.tabsDescription}>{activeTab.description}</p>
             <div className={styles.figureSecondary} role='tabpanel' aria-live='polite'>
               <Image src={activeTab.image} alt={`${activeTab.label} 탭 콘텐츠 이미지`} />
             </div>

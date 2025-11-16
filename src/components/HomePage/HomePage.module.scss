@@ -284,47 +284,76 @@
 
 .tabsSection {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  align-items: center;
 }
 
-.tabList {
-  display: inline-flex;
+.tabNav {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  width: 100%;
+  max-width: 420px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.tabItem {
+  position: relative;
+  border: none;
+  background: none;
+  color: #b3b8ad;
+  padding: 8px 0 12px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 18px;
-  flex-wrap: wrap;
+  transition: color 0.2s ease;
 }
 
-.tabButton {
-  padding: 12px 34px;
-  border-radius: 999px;
-  border: none;
-  background: #eef3e6;
-  color: #6a7c53;
-  font-weight: 600;
-  transition: background 0.2s ease, color 0.2s ease;
-}
-
-.tabButtonActive {
-  background: linear-gradient(135deg, #6d8f3f 0%, #8abd4b 100%);
-  color: #ffffff;
-  box-shadow: 0 12px 26px rgba(109, 143, 63, 0.28);
-}
-
-.progressBar {
+.tabItem::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
   width: 100%;
-  max-width: 360px;
-  height: 10px;
+  height: 3px;
+  background: #bdbdbd;
+  transition: width 0.2s ease, background 0.2s ease;
+}
+
+.tabItemActive {
+  color: #485C11;
+}
+
+.tabItemActive::after {
+  width: 100%;
+  height: 4px;
+  background: #576d2f;
+}
+
+.tabItem:focus-visible {
+  outline: none;
+  color: #2f3f2a;
+}
+
+.tabProgress {
+  width: 100%;
+  max-width: 420px;
+  height: 3px;
   border-radius: 999px;
-  background: #e6e8ea;
-  margin: 0 auto;
+  background: #d5d9cf;
+  position: relative;
   overflow: hidden;
 }
 
-.progressFill {
+.tabProgressFill {
   display: block;
   height: 100%;
-  background: linear-gradient(135deg, #6d8f3f 0%, #8abd4b 100%);
   border-radius: inherit;
+  background: #567327;
   transition: width 0.3s ease;
 }
 
