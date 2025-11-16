@@ -8,6 +8,8 @@ import tabImage1 from '../../assets/Image_tab1.png';
 import tabImage2 from '../../assets/Image_tab2.png';
 import tabImage3 from '../../assets/Image_tab3.png';
 import slideImage from '../../assets/slide-image.png';
+import videoPoster from '../../assets/video_poster.png';
+import videoPlayButton from '../../assets/video_play_button.png';
 import styles from './HomePage.module.scss';
 
 const NAV_LINKS = [
@@ -56,6 +58,8 @@ export const HomePage: React.FC = () => {
   };
 
   const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const activeTab = useMemo(() => TAB_CONTENT[activeTabIndex], [activeTabIndex]);
 
@@ -68,6 +72,29 @@ export const HomePage: React.FC = () => {
 
   const handleSelectTab = (index: number) => {
     setActiveTabIndex(index);
+  };
+
+  const handleVideoToggle = async () => {
+    const video = videoRef.current;
+    if (!video) {
+      return;
+    }
+
+    if (video.paused) {
+      setIsVideoPlaying(true);
+      try {
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          await playPromise;
+        }
+      } catch (error) {
+        setIsVideoPlaying(false);
+        console.error('비디오 재생 실패', error);
+      }
+    } else {
+      video.pause();
+      setIsVideoPlaying(false);
+    }
   };
 
   return (
@@ -117,7 +144,27 @@ export const HomePage: React.FC = () => {
             <h2 className={styles.sectionTitle}>테스트용 영상 단락</h2>
             <p className={styles.sectionSubtitle}>면접 과제용으로 제작된 샘플 영상 단락입니다.<br />사용자가 해당 단락이 화면에 보일 경우 영상이 재생되게 구현하세요.</p>
             <div className={styles.videoWrapper}>
-              <video className={styles.video} controls poster={slideImage.src} preload='metadata'>
+              <button
+                type='button'
+                className={clsx(styles.videoOverlay, isVideoPlaying && styles.videoOverlayHidden)}
+                onClick={handleVideoToggle}
+                aria-label={isVideoPlaying ? '영상 일시정지' : '영상 재생'}
+              >
+                <div className={styles.videoOverlayInner}>
+                  <Image src={videoPlayButton} alt='video play button' className={styles.videoOverlayIcon} aria-hidden />
+                </div>
+              </button>
+              <video
+                ref={videoRef}
+                className={styles.video}
+                poster={videoPoster.src}
+                preload='metadata'
+                playsInline
+                onClick={handleVideoToggle}
+                onEnded={() => setIsVideoPlaying(false)}
+                onPause={() => setIsVideoPlaying(false)}
+                onPlay={() => setIsVideoPlaying(true)}
+              >
                 <source src='/video/main.mp4' type='video/mp4' />
                 동영상 재생을 지원하지 않는 브라우저입니다.
               </video>
