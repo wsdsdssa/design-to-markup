@@ -107,6 +107,12 @@
   font-size: 15px;
 }
 
+.earthIcon,
+.arrowIcon {
+  width: auto;
+  height: 16px;
+}
+
 .languageButton {
   display: flex;
   align-items: center;
@@ -134,6 +140,131 @@
   height: 40px;
   border-radius: 999px;
   font-weight: 600;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.hamburgerLine {
+  width: 24px;
+  height: 2px;
+  background: #485C11;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.mobileMenu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 100%;
+  height: 100vh;
+  background: #ffffff;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  transition: right 0.3s ease;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1);
+}
+
+.mobileMenuOpen {
+  right: 0;
+}
+
+.mobileMenuHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.closeButton {
+  background: transparent;
+  border: none;
+  font-size: 28px;
+  color: #485C11;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobileMenuNav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 0;
+  overflow-y: auto;
+}
+
+.mobileMenuLink {
+  background: transparent;
+  border: none;
+  text-align: left;
+  padding: 16px 32px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #2c3d27;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  white-space: nowrap;
+}
+
+.mobileMenuLink:hover {
+  background: #f5f7f2;
+}
+
+.mobileMenuFooter {
+  padding: 20px;
+  border-top: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mobileLanguageButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #6F6F6F;
+  background: transparent;
+  padding: 12px 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.mobileLoginButton {
+  border: none;
+  background: #485C11;
+  color: #ffffff;
+  padding: 12px 20px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.mobileMenuOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 199;
 }
 
 .content{
@@ -520,6 +651,15 @@
   width: 100%;
   margin: 0 auto;
 }
+
+@media (max-width: 1200px) {
+  .hero,
+  .mediaSection,
+  .tabsSection {
+    padding: 0 30px;
+  }
+}
+
 @media (max-width: 900px) {
   .header {
     flex-direction: column;
@@ -548,13 +688,36 @@
 
 @media (max-width: 720px) {
   .root {
-    padding: 48px 0 80px;
+    padding: 0;
   }
 
   .page {
-    padding: 32px 24px 72px;
+    padding: 0;
     gap: 72px;
-    border-radius: 28px;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .header {
+    padding: 0 20px;
+    height: 56px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0;
+  }
+
+  .desktopNav,
+  .actions {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .content {
+    padding-top: 56px;
   }
 
   .cardsSection {
@@ -572,16 +735,54 @@
   .cardSlide {
     width: 220px;
   }
+  .figurePrimary{
+    max-width: 320px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  .videoWrapper{
+    width: 100%;
+    margin: 0 auto;
+  }
+  .figureSecondary{
+    width: 100%;
+    max-height: calc(100% - 48px);
+    margin: 0 auto;
+  }
+
+  .sectionTitle,
+  .cardsTitle,
+  .heroTitle{
+    font-size: 28px;
+  }
+
+  .sectionSubtitle,
+  .heroDescription{
+    font-size: 14px;
+  }
+  .cardContent {
+    .cardTitle,
+    .cardDescription{
+      font-size: 15px;
+    }
+  }
+
+  .hero,
+  .mediaSection,
+  .tabsSection {
+    padding: 0 30px;
+  }
 }
 
 @media (max-width: 480px) {
   .page {
-    padding: 28px 20px 64px;
+    padding: 0;
     gap: 64px;
+    border-radius: 0;
   }
 
   .heroTitle {
-    font-size: 34px;
+    font-size: 24px;
   }
 
   .tabList {
@@ -594,5 +795,14 @@
 
   .figureSecondary {
     border-radius: 26px;
+  }
+
+  .hero,
+  .mediaSection,
+  .tabsSection {
+    padding: 0 20px;
+  }
+  .content {
+    gap: 48px;
   }
 }

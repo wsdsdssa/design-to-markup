@@ -8,11 +8,17 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 
 import heroDevice from '../../assets/Ipad.png';
+import heroDeviceMobile from '../../assets/iPhone.png';
 import tabImage1 from '../../assets/Image_tab1.png';
 import tabImage2 from '../../assets/Image_tab2.png';
 import tabImage3 from '../../assets/Image_tab3.png';
 import slideImage from '../../assets/slide-image.png';
 import videoPoster from '../../assets/video_poster.png';
+import mobileTabImage1 from '../../assets/mobile_tab_1.png';
+import mobileTabImage2 from '../../assets/mobile_tab_2.png';
+import mobileTabImage3 from '../../assets/mobile_tab_3.png';
+import mobileSlideImage from '../../assets/mobile_slide_img.png';
+import mobileVideoPoster from '../../assets/mobile__video_poster.png';
 import videoPlayButton from '../../assets/video_play_button.png';
 import earthIcon from '../../assets/earth_icon.png';
 import arrowIcon from '../../assets/arrow_icon.png';
@@ -25,20 +31,6 @@ const NAV_LINKS = [
   { label: 'Service menu4', target: 'cards' },
 ] as const;
 
-const TAB_CONTENT = [
-  {
-    label: '탭 영역1',
-    image: tabImage1,
-  },
-  {
-    label: '탭 영역2',
-    image: tabImage2,
-  },
-  {
-    label: '탭 영역3',
-    image: tabImage3,
-  }
-];
 
 const CARD_ITEMS = [
   {
@@ -77,15 +69,51 @@ export const HomePage: React.FC = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const initial = window.innerWidth <= 720;
+      return initial;
+    }
+    return false;
+  });
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
-  const activeTab = useMemo(() => TAB_CONTENT[activeTabIndex], [activeTabIndex]);
+  const TAB_CONTENT = useMemo(() => [
+    {
+      label: '탭 영역1',
+      image: isMobile ? mobileTabImage1 : tabImage1,
+    },
+    {
+      label: '탭 영역2',
+      image: isMobile ? mobileTabImage2 : tabImage2,
+    },
+    {
+      label: '탭 영역3',
+      image: isMobile ? mobileTabImage3 : tabImage3,
+    }
+  ], [isMobile]);
+
+  const currentSlideImage = useMemo(() => 
+    isMobile ? mobileSlideImage : slideImage
+  , [isMobile]);
+
+  const currentVideoPoster = useMemo(() => 
+    isMobile ? mobileVideoPoster : videoPoster
+  , [isMobile]);
+
+  const currentHeroDevice = useMemo(() => 
+    isMobile ? heroDeviceMobile : heroDevice
+  , [isMobile]);
+
+  const activeTab = useMemo(() => TAB_CONTENT[activeTabIndex], [TAB_CONTENT, activeTabIndex]);
 
   const handleNavigate = (target: keyof typeof sectionRefs) => {
     const ref = sectionRefs[target].current;
     if (ref) {
       ref.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+    setIsMobileMenuOpen(false);
   };
 
   const handleSelectTab = (index: number) => {
@@ -116,6 +144,20 @@ export const HomePage: React.FC = () => {
   };
 
   useEffect(() => {
+    const checkIsMobile = () => {
+      const width = window.innerWidth;
+      const mobile = width <= 720;
+      setIsMobile((prev) => {
+        return mobile;
+      });
+    };
+    
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+    return () => window.removeEventListener('resize', checkIsMobile);
+  }, []);
+
+  useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
@@ -124,39 +166,123 @@ export const HomePage: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
+
   return (
     <div className={styles.root}>
       <main className={styles.page}>
         <header className={clsx(styles.header, isScrolled && styles.headerScrolled)}>
           <div className={styles.logo}>
             <Image src='/images/logo.png' alt='브랜드 로고' width={120} height={28} priority />
-            <nav>
-              <ul className={styles.navList}>
-                {NAV_LINKS.map(({ label, target }) => (
-                  <li key={label} className={styles.navItem}>
-                    <button
-                      type='button'
-                      className={styles.navButton}
-                      onClick={() => handleNavigate(target)}
-                    >
-                      {label}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </nav>
           </div>
+          <nav className={styles.desktopNav}>
+            <ul className={styles.navList}>
+              {NAV_LINKS.map(({ label, target }) => (
+                <li key={label} className={styles.navItem}>
+                  <button
+                    type='button'
+                    className={styles.navButton}
+                    onClick={() => handleNavigate(target)}
+                  >
+                    {label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
           <div className={styles.actions}>
             <button className={styles.languageButton} type='button'>
               <Image src={earthIcon} alt='earth icon' className={styles.earthIcon} aria-hidden />
               <span>한국어</span>
               <Image src={arrowIcon} alt='arrow icon' className={styles.arrowIcon} aria-hidden />
-            </button> 
+            </button>
             <button className={styles.ctaButton} type='button'>
               Login
             </button>
           </div>
+          <button 
+            className={styles.hamburger} 
+            type='button' 
+            aria-label='메뉴'
+            onClick={() => setIsMobileMenuOpen(true)}
+          >
+            <span className={styles.hamburgerLine} />
+            <span className={styles.hamburgerLine} />
+            <span className={styles.hamburgerLine} />
+          </button>
         </header>
+
+        {/* Mobile Menu Panel */}
+        <div className={clsx(styles.mobileMenu, isMobileMenuOpen && styles.mobileMenuOpen)}>
+          <div className={styles.mobileMenuHeader}>
+            <Image src='/images/logo.png' alt='브랜드 로고' width={120} height={28} />
+            <button 
+              className={styles.closeButton} 
+              type='button'
+              aria-label='메뉴 닫기'
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              ✕
+            </button>
+          </div>
+          <nav className={styles.mobileMenuNav}>
+            <button
+              type='button'
+              className={styles.mobileMenuLink}
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setIsMobileMenuOpen(false);
+              }}
+            >
+              Home
+            </button>
+            <button
+              type='button'
+              className={styles.mobileMenuLink}
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Service
+            </button>
+            {NAV_LINKS.map(({ label, target }) => (
+              <button
+                key={label}
+                type='button'
+                className={styles.mobileMenuLink}
+                onClick={() => handleNavigate(target)}
+              >
+                {label}
+              </button>
+            ))}
+          </nav>
+          <div className={styles.mobileMenuFooter}>
+            <button className={styles.mobileLanguageButton} type='button'>
+              <Image src={earthIcon} alt='earth icon' className={styles.earthIcon} aria-hidden />
+              <span>한국어</span>
+              <Image src={arrowIcon} alt='arrow icon' className={styles.arrowIcon} aria-hidden />
+            </button>
+            <button className={styles.mobileLoginButton} type='button'>
+              Login
+            </button>
+          </div>
+        </div>
+
+        {/* Overlay */}
+        {isMobileMenuOpen && (
+          <div 
+            className={styles.mobileMenuOverlay} 
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+        )}
         <div className={styles.content}>
           <section ref={sectionRefs.intro} id='intro-section' className={styles.hero}>
             <span className={styles.badge} role='presentation'>Syntekabio</span>
@@ -165,7 +291,7 @@ export const HomePage: React.FC = () => {
             면접 과제용으로 제작된 샘플 페이지입니다.
             </p>
             <div className={styles.figurePrimary}>
-              <Image src={heroDevice} alt='테스트용 태블릿 이미지' priority />
+              <Image src={currentHeroDevice} alt='테스트용 태블릿 이미지' priority />
             </div>
           </section>
 
@@ -186,7 +312,7 @@ export const HomePage: React.FC = () => {
               <video
                 ref={videoRef}
                 className={styles.video}
-                poster={videoPoster.src}
+                poster={currentVideoPoster.src}
                 preload='metadata'
                 playsInline
                 onClick={handleVideoToggle}
@@ -243,7 +369,7 @@ export const HomePage: React.FC = () => {
                 <SwiperSlide key={card.title} className={styles.cardSlide}>
                   <article className={styles.card}>
                     <div className={styles.cardImage}>
-                      <Image src={slideImage} alt={`${card.title} 미리보기 이미지`} />
+                      <Image src={currentSlideImage} alt={`${card.title} 미리보기 이미지`} />
                     </div>
                     <div className={styles.cardContent}>
                       <h3 className={styles.cardTitle}>{card.title}</h3>
