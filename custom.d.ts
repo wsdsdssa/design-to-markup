@@ -24,6 +24,12 @@ declare module '*.mov' {
   const src: string;
   export default src;
 }
+
+declare module '*.png' {
+  const src: import('next/image').StaticImageData;
+  export default src;
+}
+
 declare module '*.module.scss' {
   const classes: { [key: string]: string };
   export default classes;
