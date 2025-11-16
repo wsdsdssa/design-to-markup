@@ -22,6 +22,7 @@ import mobileVideoPoster from '../../assets/mobile__video_poster.png';
 import videoPlayButton from '../../assets/video_play_button.png';
 import earthIcon from '../../assets/earth_icon.png';
 import arrowIcon from '../../assets/arrow_icon.png';
+import hamburgerIcon from '../../assets/hamburger_icon.png';
 import styles from './HomePage.module.scss';
 
 const NAV_LINKS = [
@@ -72,7 +73,7 @@ export const HomePage: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(() => {
     if (typeof window !== 'undefined') {
-      const initial = window.innerWidth <= 720;
+      const initial = window.innerWidth <= 900;
       return initial;
     }
     return false;
@@ -150,7 +151,7 @@ export const HomePage: React.FC = () => {
   useEffect(() => {
     const checkIsMobile = () => {
       const width = window.innerWidth;
-      const mobile = width <= 720;
+      const mobile = width <= 900;
       setIsMobile((prev) => {
         return mobile;
       });
@@ -220,9 +221,7 @@ export const HomePage: React.FC = () => {
             aria-label='메뉴'
             onClick={() => setIsMobileMenuOpen(true)}
           >
-            <span className={styles.hamburgerLine} />
-            <span className={styles.hamburgerLine} />
-            <span className={styles.hamburgerLine} />
+            <Image src={hamburgerIcon} alt='menu icon' className={styles.menuIcon} aria-hidden />
           </button>
         </header>
 

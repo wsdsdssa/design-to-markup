@@ -21,8 +21,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 48px;
-  padding: 0 40px;
+  padding: 0 38px;
   height: 56px;
   background: transparent;
   transition: background 0.3s ease, box-shadow 0.3s ease;
@@ -659,32 +658,6 @@
 }
 
 @media (max-width: 900px) {
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 24px;
-  }
-
-  .navList {
-    flex-wrap: wrap;
-    gap: 24px;
-  }
-
-  .actions {
-    align-self: stretch;
-    justify-content: space-between;
-  }
-
-  .figurePrimary {
-    padding: 24px 20px 20px;
-  }
-
-  .cardsGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 720px) {
   .root {
     padding: 0;
   }
@@ -712,6 +685,24 @@
     justify-content: space-between;
     border-bottom: 1px solid #f0f0f0;
     gap: 0;
+  }
+
+  .navList {
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .actions {
+    align-self: stretch;
+    justify-content: space-between;
+  }
+
+  .figurePrimary {
+    padding: 24px 20px 20px;
+  }
+
+  .cardsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .desktopNav,
