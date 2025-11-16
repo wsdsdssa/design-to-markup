@@ -71,45 +71,36 @@ export const HomePage: React.FC = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const initial = window.innerWidth <= 900;
-      return initial;
-    }
-    return false;
-  });
+  const [isMobile, setIsMobile] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const TAB_CONTENT = useMemo(() => [
     {
       label: '탭 영역1',
-      image: isMobile ? mobileTabImage1 : tabImage1,
+      image: (isMounted && isMobile) ? mobileTabImage1 : tabImage1,
     },
     {
       label: '탭 영역2',
-      image: isMobile ? mobileTabImage2 : tabImage2,
+      image: (isMounted && isMobile) ? mobileTabImage2 : tabImage2,
     },
     {
       label: '탭 영역3',
-      image: isMobile ? mobileTabImage3 : tabImage3,
+      image: (isMounted && isMobile) ? mobileTabImage3 : tabImage3,
     }
-  ], [isMobile]);
-
-  const currentLogoImage = useMemo(() => 
-    isMobile ? '/images/mobile_logo.png' : '/images/logo.png'
-  , [isMobile]);
+  ], [isMounted, isMobile]);
 
   const currentSlideImage = useMemo(() => 
-    isMobile ? mobileSlideImage : slideImage
-  , [isMobile]);
+    (isMounted && isMobile) ? mobileSlideImage : slideImage
+  , [isMounted, isMobile]);
 
   const currentVideoPoster = useMemo(() => 
-    isMobile ? mobileVideoPoster : videoPoster
-  , [isMobile]);
+    (isMounted && isMobile) ? mobileVideoPoster : videoPoster
+  , [isMounted, isMobile]);
 
   const currentHeroDevice = useMemo(() => 
-    isMobile ? heroDeviceMobile : heroDevice
-  , [isMobile]);
+    isMounted && isMobile ? heroDeviceMobile : heroDevice
+  , [isMounted, isMobile]);
 
   const activeTab = useMemo(() => TAB_CONTENT[activeTabIndex], [TAB_CONTENT, activeTabIndex]);
 
@@ -123,6 +114,10 @@ export const HomePage: React.FC = () => {
 
   const handleSelectTab = (index: number) => {
     setActiveTabIndex(index);
+  };
+
+  const handleNotImplemented = () => {
+    alert('구현되지 않은 기능입니다.');
   };
 
   const handleVideoToggle = async () => {
@@ -149,12 +144,12 @@ export const HomePage: React.FC = () => {
   };
 
   useEffect(() => {
+    setIsMounted(true);
+    
     const checkIsMobile = () => {
       const width = window.innerWidth;
       const mobile = width <= 900;
-      setIsMobile((prev) => {
-        return mobile;
-      });
+      setIsMobile(mobile);
     };
     
     checkIsMobile();
@@ -188,7 +183,7 @@ export const HomePage: React.FC = () => {
       <main className={styles.page}>
         <header className={clsx(styles.header, isScrolled && styles.headerScrolled)}>
           <Link href='/' className={styles.logo}>
-            <Image src={currentLogoImage} alt='브랜드 로고' width={isMobile ? 100 : 120} height={isMobile ? 22 : 28} priority />
+            <Image src='/images/logo.png' alt='브랜드 로고' width={120} height={28} priority />
           </Link>
           <nav className={styles.desktopNav}>
             <ul className={styles.navList}>
@@ -206,12 +201,12 @@ export const HomePage: React.FC = () => {
             </ul>
           </nav>
           <div className={styles.actions}>
-            <button className={styles.languageButton} type='button'>
+            <button className={styles.languageButton} type='button' onClick={handleNotImplemented}>
               <Image src={earthIcon} alt='earth icon' className={styles.earthIcon} aria-hidden />
               <span>한국어</span>
               <Image src={arrowIcon} alt='arrow icon' className={styles.arrowIcon} aria-hidden />
             </button>
-            <button className={styles.ctaButton} type='button'>
+            <button className={styles.ctaButton} type='button' onClick={handleNotImplemented}>
               Login
             </button>
           </div>
@@ -229,7 +224,7 @@ export const HomePage: React.FC = () => {
         <div className={clsx(styles.mobileMenu, isMobileMenuOpen && styles.mobileMenuOpen)}>
           <div className={styles.mobileMenuHeader}>
             <Link href='/' className={styles.mobileLogo}  onClick={() => setIsMobileMenuOpen(false)}>
-              <Image src='/images/mobile_logo.png' alt='브랜드 로고'  width={100} height={22} />
+              <Image src='/images/mobile_logo.png' alt='브랜드 로고'  width={120} height={28} />
             </Link>
           <button 
               className={styles.closeButton} 
@@ -261,7 +256,7 @@ export const HomePage: React.FC = () => {
                 {label}
               </button>
             ))}
-            <button className={styles.mobileLanguageButton} type='button'>
+            <button className={styles.mobileLanguageButton} type='button' onClick={handleNotImplemented}>
               <Image src={earthIcon} alt='earth icon' className={styles.earthIcon} aria-hidden />
               <span>한국어</span>
               <Image src={arrowIcon} alt='arrow icon' className={styles.arrowIcon} aria-hidden />
@@ -269,7 +264,7 @@ export const HomePage: React.FC = () => {
           </nav>
 
           <div className={styles.mobileMenuFooter}>
-            <button className={styles.mobileLoginButton} type='button'>
+            <button className={styles.mobileLoginButton} type='button' onClick={handleNotImplemented}>
               Login
             </button>
           </div>
@@ -290,7 +285,7 @@ export const HomePage: React.FC = () => {
             면접 과제용으로 제작된 샘플 페이지입니다.
             </p>
             <div className={styles.figurePrimary}>
-              <Image src={currentHeroDevice} alt='테스트용 태블릿 이미지' priority />
+              <Image src={currentHeroDevice} alt='테스트용 태블릿 이미지' />
             </div>
           </section>
 
