@@ -45,6 +45,14 @@ const config: StorybookConfig = {
       config.resolve.alias['next/link'] = path.resolve(__dirname, 'next-link.mock.tsx');
     }
 
+    config.resolve = {
+      ...config.resolve,
+      roots: [
+        path.resolve(__dirname, '../public'),
+        'node_modules',
+      ],
+    };
+
     const imageRule = config.module?.rules?.find((rule) => {
       const test = (rule as { test: RegExp }).test;
 
