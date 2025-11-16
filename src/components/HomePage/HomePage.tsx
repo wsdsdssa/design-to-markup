@@ -228,9 +228,9 @@ export const HomePage: React.FC = () => {
         {/* Mobile Menu Panel */}
         <div className={clsx(styles.mobileMenu, isMobileMenuOpen && styles.mobileMenuOpen)}>
           <div className={styles.mobileMenuHeader}>
-            <div className={styles.mobileLogo}  onClick={() => setIsMobileMenuOpen(false)}>
+            <Link href='/' className={styles.mobileLogo}  onClick={() => setIsMobileMenuOpen(false)}>
               <Image src='/images/mobile_logo.png' alt='브랜드 로고'  width={100} height={22} />
-            </div>
+            </Link>
           <button 
               className={styles.closeButton} 
               type='button'
