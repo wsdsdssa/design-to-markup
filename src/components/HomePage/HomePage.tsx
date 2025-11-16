@@ -2,6 +2,10 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useMemo, useRef, useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
 
 import heroDevice from '../../assets/Ipad.png';
 import tabImage1 from '../../assets/Image_tab1.png';
@@ -37,15 +41,26 @@ const TAB_CONTENT = [
 const CARD_ITEMS = [
   {
     title: '카드 타이틀 01',
-    description: '테스트용 카드입니다. 동일한 스타일과 간격으로 제작된 예시 문장입니다.'
+    description: '인터렉션, 코드 구조등을 자유롭게 구현하세요.'
   },
   {
     title: '카드 타이틀 02',
-    description: '이미지와 텍스트가 조화를 이루도록 구성된 섹션으로 디자인 시안을 반영합니다.'
+    description: `이 카드는 콘텐츠가 길어졌을 경우 확인하기 위한 긴 텍스트의 예시입니다. 모든 내용은 테스트 목적의 더미 데이터입니다.`
   },
   {
     title: '카드 타이틀 03',
-    description: '반복되는 카드 역시 동일한 규격을 유지하여 리스트 구조를 확인할 수 있습니다.'
+    description: '인터렉션, 코드 구조등을자유롭게 구현하세요.'
+  },
+  {
+    title: '카드 타이틀 04',
+    description: `이 카드는 콘텐츠가 길어졌을 경우 확인하기 위한 긴 텍스트의 예시입니다. 모든 내용은 테스트 목적의 더미 데이터입니다.`
+  },
+  {
+    title: '카드 타이틀 05',
+    description: '인터렉션, 코드 구조등을자유롭게 구현하세요.'  },
+  {
+    title: '카드 타이틀 06',
+    description: '인터렉션, 코드 구조등을자유롭게 구현하세요.'
   }
 ];
 
@@ -194,23 +209,36 @@ export const HomePage: React.FC = () => {
           </section>
 
           <section ref={sectionRefs.cards} id='cards-section' className={styles.cardsSection}>
-            <div className={styles.cardsContainer}>
+            <div className={styles.cardsHeader}>
               <h2 className={styles.cardsTitle}>테스트용 이미지 카드 단락입니다</h2>
               <p className={styles.sectionSubtitle}>면접 과제용으로 제작된 샘플 탭 단락입니다.<br />인터렉션, 코드 구조등을 자유롭게 구현하세요.</p>
+            </div>
 
-              <div className={styles.cardsGrid}>
-                {CARD_ITEMS.map((card, index) => (
-                  <article key={card.title} className={styles.card}>
+            <Swiper
+              className={styles.cardsSwiper}
+              modules={[Pagination]}
+              spaceBetween={28}
+              slidesPerView='auto'
+              pagination={{
+                clickable: true,
+                el: `.${styles.cardsPagination}`,
+              }}
+            >
+              {CARD_ITEMS.map((card, index) => (
+                <SwiperSlide key={card.title} className={styles.cardSlide}>
+                  <article className={styles.card}>
                     <div className={styles.cardImage}>
                       <Image src={slideImage} alt={`${card.title} 미리보기 이미지`} />
                     </div>
-                    <h3 className={styles.cardTitle}>{card.title}</h3>
-                    <p className={styles.cardDescription}>{card.description}</p>
-                    <span className={styles.cardIndex}>{`0${index + 1}`}</span>
+                    <div className={styles.cardContent}>
+                      <h3 className={styles.cardTitle}>{card.title}</h3>
+                      <p className={styles.cardDescription}>{card.description}</p>
+                    </div>
                   </article>
-                ))}
-              </div>
-            </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+            <div className={styles.cardsPagination} />
           </section>
         </div>
       </main>
