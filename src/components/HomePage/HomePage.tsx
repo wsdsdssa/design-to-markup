@@ -187,9 +187,9 @@ export const HomePage: React.FC = () => {
     <div className={styles.root}>
       <main className={styles.page}>
         <header className={clsx(styles.header, isScrolled && styles.headerScrolled)}>
-          <div className={styles.logo}>
+          <Link href='/' className={styles.logo}>
             <Image src={currentLogoImage} alt='브랜드 로고' width={isMobile ? 100 : 120} height={isMobile ? 22 : 28} priority />
-          </div>
+          </Link>
           <nav className={styles.desktopNav}>
             <ul className={styles.navList}>
               {NAV_LINKS.map(({ label, target }) => (
@@ -228,7 +228,7 @@ export const HomePage: React.FC = () => {
         {/* Mobile Menu Panel */}
         <div className={clsx(styles.mobileMenu, isMobileMenuOpen && styles.mobileMenuOpen)}>
           <div className={styles.mobileMenuHeader}>
-            <div className={styles.mobileLogo}>
+            <div className={styles.mobileLogo}  onClick={() => setIsMobileMenuOpen(false)}>
               <Image src='/images/mobile_logo.png' alt='브랜드 로고'  width={100} height={22} />
             </div>
           <button 
